@@ -1,20 +1,20 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1733078757007,
-      "tag": "0000_lyrical_victor_mancha",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1733096081169,
-      "tag": "0001_ancient_dexter_bennett",
-      "breakpoints": true
-    }
-  ]
+    "version": "7",
+    "dialect": "postgresql",
+    "entries": [
+        {
+            "idx": 0,
+            "version": "7",
+            "when": 1733078757007,
+            "tag": "0000_lyrical_victor_mancha",
+            "breakpoints": true
+        },
+        {
+            "idx": 1,
+            "version": "7",
+            "when": 1733096081169,
+            "tag": "0001_ancient_dexter_bennett",
+            "breakpoints": true
+        }
+    ]
 }

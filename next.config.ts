@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+
 import { env as envClient } from "@/env/client";
 import { env as envServer } from "@/env/server";
 

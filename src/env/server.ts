@@ -1,7 +1,7 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import { z, ZodError } from "zod";
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
+import { ZodError, z } from "zod";
 
 expand(config());
 
@@ -23,7 +23,10 @@ export const env = createEnv({
         GITHUB_CLIENT_SECRET: z.string(),
     },
     onValidationError: (error: ZodError) => {
-        console.error("❌ Invalid environment variables:", error.flatten().fieldErrors);
+        console.error(
+            "❌ Invalid environment variables:",
+            error.flatten().fieldErrors
+        );
         process.exit(1);
     },
     emptyStringAsUndefined: true,

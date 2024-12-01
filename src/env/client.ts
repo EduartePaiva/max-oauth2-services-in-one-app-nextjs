@@ -5,7 +5,10 @@ export const env = createEnv({
     client: {},
     runtimeEnv: {},
     onValidationError: (error: ZodError) => {
-        console.error("❌ Invalid environment variables:", error.flatten().fieldErrors);
+        console.error(
+            "❌ Invalid environment variables:",
+            error.flatten().fieldErrors
+        );
         process.exit(1);
     },
 });

@@ -1,4 +1,5 @@
 import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
+
 import usersTable from "./users";
 
 const sessionTable = pgTable("session", {
