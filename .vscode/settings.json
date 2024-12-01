@@ -1,0 +1,18 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "always",
+        "source.organizeImports": "always"
+    },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "workbench.editor.customLabels.patterns": {
+        "**/app/**/page.tsx": "${dirname} - Page",
+        "**/app/**/layout.tsx": "${dirname} - Layout",
+        "**/app/**/route.ts": "${dirname} - Route",
+        "**/components/**/index.tsx": "${dirname} - Component"
+    },
+    "cSpell.words": []
+}

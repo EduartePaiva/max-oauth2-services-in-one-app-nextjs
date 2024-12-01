@@ -1,7 +1,28 @@
 {
-    "extends": ["next/core-web-vitals", "next/typescript"],
-    "plugins": ["n"],
+    "extends": ["next/core-web-vitals", "next/typescript", "prettier"],
+    "plugins": ["n", "check-file"],
     "rules": {
-        "n/no-process-env": ["error"]
+        "n/no-process-env": ["error"],
+        "prefer-arrow-callback": "error",
+        "prefer-template": "error",
+        "semi": "error",
+        "quotes": ["error", "double"],
+        "check-file/filename-naming-convention": [
+            "error",
+            {
+                "**/*.{ts,tsx}": "KEBAB_CASE"
+            },
+            {
+                // ignore the middle extensions of the filename to support filename like bable.config.js or smoke.spec.ts
+                "ignoreMiddleExtensions": true
+            }
+        ],
+        "check-file/folder-naming-convention": [
+            "error",
+            {
+                // all folders within src (except __tests__)should be named in kebab-case
+                "src/**": "NEXT_JS_APP_ROUTER_CASE"
+            }
+        ]
     }
 }
