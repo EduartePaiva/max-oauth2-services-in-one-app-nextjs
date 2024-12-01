@@ -1,8 +1,8 @@
 import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
-import { usersTable } from "./users";
+import usersTable from "./users";
 
-export const sessionTable = pgTable("session", {
-    ID: uuid().defaultRandom().primaryKey(),
+const sessionTable = pgTable("session", {
+    id: uuid().defaultRandom().primaryKey(),
     userId: uuid()
         .notNull()
         .references(() => usersTable.id),
@@ -11,3 +11,5 @@ export const sessionTable = pgTable("session", {
         mode: "date",
     }).notNull(),
 });
+
+export default sessionTable;

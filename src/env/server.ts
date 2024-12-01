@@ -1,5 +1,9 @@
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z, ZodError } from "zod";
+import { config } from "dotenv";
+import { expand } from "dotenv-expand";
+
+expand(config());
 
 export const env = createEnv({
     server: {
@@ -10,6 +14,11 @@ export const env = createEnv({
         DB_PASSWORD: z.string(),
         DB_NAME: z.string(),
         DB_PORT: z.coerce.number(),
+        DB_MIGRATING: z
+            .string()
+            .refine((s) => s === "true" || s === "false")
+            .transform((s) => s === "true")
+            .optional(),
     },
     onValidationError: (error: ZodError) => {
         console.error("❌ Invalid environment variables:", error.flatten().fieldErrors);
