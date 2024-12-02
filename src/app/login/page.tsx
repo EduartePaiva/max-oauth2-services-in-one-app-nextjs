@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { useTransition } from "react";
 
-import { ChevronLeft, Webhook } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import { TbBrandOauth } from "react-icons/tb";
 
-import Spinner from "@/components/spinner/spinner";
 import { Button } from "@/components/ui/button";
+
+import ProviderLoginBtn from "./provider-button";
 
 export default function LoginPage() {
     const [isLogin] = useTransition();
@@ -22,24 +25,20 @@ export default function LoginPage() {
             </Link>
             <div className="absolute left-1/2 top-1/2 flex w-[360px] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-lg bg-gray-50 p-6 shadow-md">
                 <div className="mb-2 flex flex-col items-center text-center text-gray-700">
-                    <Webhook size={28} />
+                    <TbBrandOauth size={28} />
                     <h1 className="text-lg font-bold">
-                        Login to some Provider
+                        Login to a OAuth 2.0 Provider
                     </h1>
-                    <p className="text-muted-foreground text-balance text-[0.8125rem]">
+                    <p className="text-balance text-[0.8125rem] text-muted-foreground">
                         Welcome back! Please chose a provider to continue!
                     </p>
                 </div>
 
-                <Button type="submit">
-                    {isLogin ? (
-                        <span className="">
-                            <Spinner className="stroke-slate-300" />
-                        </span>
-                    ) : (
-                        <span>Login</span>
-                    )}
-                </Button>
+                <ProviderLoginBtn
+                    LogoIcon={FaGithub}
+                    isLogin={isLogin}
+                    name="Github"
+                />
             </div>
         </>
     );
