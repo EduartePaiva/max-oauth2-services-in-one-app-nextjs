@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useTransition } from "react";
 
 import { ChevronLeft } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
@@ -12,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import ProviderLoginBtn from "./provider-button";
 
 export default function LoginPage() {
-    const [isLogin] = useTransition();
     return (
         <>
             <Link href={"/"} className="relative self-start">
@@ -36,8 +34,8 @@ export default function LoginPage() {
 
                 <ProviderLoginBtn
                     LogoIcon={FaGithub}
-                    isLogin={isLogin}
                     name="Github"
+                    href="/login/github"
                 />
             </div>
         </>
