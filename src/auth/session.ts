@@ -20,7 +20,7 @@ export function generateSessionToken(): string {
 
 export async function createSession(
     token: string,
-    userId: number
+    userId: string
 ): Promise<Session> {
     const sessionId = encodeHexLowerCase(
         sha256(new TextEncoder().encode(token))
@@ -28,7 +28,7 @@ export async function createSession(
     const session = {
         id: sessionId,
         expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
-        userId: userId.toString(),
+        userId,
     } satisfies Session;
     await db.insert(sessionTable).values(session);
     return session;
@@ -67,7 +67,7 @@ export async function validateSessionToken(
 }
 
 export async function invalidateSession(sessionId: string): Promise<void> {
-    // TODO
+    await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
 }
 
 export type SessionValidationResult =
