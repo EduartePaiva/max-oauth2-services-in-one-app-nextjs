@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { OAuth2Tokens } from "arctic";
 
-import { github } from "@/auth-providers/github";
+import { github } from "@/auth/oauth/github";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -35,6 +35,9 @@ export async function GET(request: Request) {
         },
     });
     const githubUser = await githubUserResponse.json();
+    const githubUserId = githubUser.id;
+    const githubUserAvatar = githubUser.avatar_url;
+    const githubUsername = githubUser.name;
     console.log(githubUser);
 
     return new Response("ok");

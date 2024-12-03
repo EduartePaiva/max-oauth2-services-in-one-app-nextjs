@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { IconType } from "react-icons/lib";
 
 import { buttonVariants } from "@/components/ui/button";
@@ -16,11 +14,7 @@ export default function ProviderLoginBtn({
     href,
 }: ProviderLoginBtn) {
     return (
-        <Link
-            className={buttonVariants({ size: "lg" })}
-            type="submit"
-            href={href}
-        >
+        <a className={buttonVariants({ size: "lg" })} type="submit" href={href}>
             <span className="flex items-center gap-2">Login With {name}</span>
             <LogoIcon
                 style={{
@@ -28,6 +22,6 @@ export default function ProviderLoginBtn({
                     height: "1.5em",
                 }}
             />
-        </Link>
+        </a>
     );
 }

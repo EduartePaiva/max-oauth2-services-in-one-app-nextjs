@@ -1,9 +1,10 @@
-import { pgTable, timestamp, uuid } from "drizzle-orm/pg-core";
+import { InferSelectModel } from "drizzle-orm";
+import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 import usersTable from "./users";
 
 const sessionTable = pgTable("session", {
-    id: uuid().defaultRandom().primaryKey(),
+    id: text().primaryKey().notNull(),
     userId: uuid()
         .notNull()
         .references(() => usersTable.id),
@@ -12,5 +13,6 @@ const sessionTable = pgTable("session", {
         mode: "date",
     }).notNull(),
 });
+export type Session = InferSelectModel<typeof sessionTable>;
 
 export default sessionTable;

@@ -1,2 +1,2 @@
-export { default as users } from "./users";
-export { default as sessionTable } from "./session";
+export { default as sessionTable, type Session } from "./session";
+export { default as users, type User } from "./users";
