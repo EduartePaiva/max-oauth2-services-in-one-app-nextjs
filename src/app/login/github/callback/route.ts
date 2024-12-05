@@ -4,10 +4,13 @@ import { OAuth2Tokens } from "arctic";
 import { eq } from "drizzle-orm";
 
 import { github } from "@/auth/oauth/github";
-import { createSession, generateSessionToken } from "@/auth/session";
+import {
+    createSession,
+    generateSessionToken,
+    setSessionTokenCookie,
+} from "@/auth/session";
 import db from "@/db";
 import { User, users } from "@/db/schema";
-import { env } from "@/env/server";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -43,9 +46,8 @@ export async function GET(request: Request) {
         });
         const githubUser = await githubUserResponse.json();
         const githubUserId = githubUser.id as number;
-        const githubUserAvatar = githubUser.avatar_url;
-        const githubUsername = githubUser.name;
-        console.log(githubUser);
+        const githubUserAvatar = githubUser.avatar_url as string;
+        const githubUsername = githubUser.name as string;
         const userLst = await db
             .select()
             .from(users)
@@ -57,8 +59,8 @@ export async function GET(request: Request) {
                 .insert(users)
                 .values({
                     githubId: githubUserId.toString(),
-                    username: githubUsername as string,
-                    avatarUrl: githubUserAvatar as string,
+                    username: githubUsername,
+                    avatarUrl: githubUserAvatar,
                 })
                 .returning();
             user = newUser[0];
@@ -71,18 +73,16 @@ export async function GET(request: Request) {
     }
 
     // create a session for this user
-    const token = generateSessionToken();
+    const sessionToken = generateSessionToken();
     try {
-        const session = await createSession(token, user.id);
-        const cookie = await cookies();
-        cookie.set("session", token, {
-            httpOnly: true,
-            sameSite: "lax",
-            secure: env.NODE_ENV === "production",
-            expires: session.expiresAt,
-            path: "/",
+        const session = await createSession(sessionToken, user.id);
+        await setSessionTokenCookie(sessionToken, session.expiresAt);
+        return new Response(null, {
+            status: 302,
+            headers: {
+                Location: "/",
+            },
         });
-        return new Response("ok", { status: 200 });
     } catch (e) {
         console.error(e);
         return new Response(null, { status: 400 });

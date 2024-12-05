@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cookies } from "next/headers";
+
 import { sha256 } from "@oslojs/crypto/sha2";
 import {
     encodeBase32LowerCaseNoPadding,
@@ -10,6 +12,7 @@ import { eq } from "drizzle-orm";
 import db from "@/db";
 import { type Session, type User, sessionTable } from "@/db/schema";
 import usersTable from "@/db/schema/users";
+import { env } from "@/env/server";
 
 export function generateSessionToken(): string {
     const bytes = new Uint8Array(20);
@@ -68,6 +71,31 @@ export async function validateSessionToken(
 
 export async function invalidateSession(sessionId: string): Promise<void> {
     await db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
+}
+
+export async function setSessionTokenCookie(
+    sessionToken: string,
+    expiresAt: Date
+): Promise<void> {
+    const cookie = await cookies();
+    cookie.set("session", sessionToken, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: env.NODE_ENV === "production",
+        expires: expiresAt,
+        path: "/",
+    });
+}
+
+export async function deleteSessionTokenCookie(): Promise<void> {
+    const cookieStore = await cookies();
+    cookieStore.set("session", "", {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: env.NODE_ENV === "production",
+        maxAge: 0,
+        path: "/",
+    });
 }
 
 export type SessionValidationResult =
