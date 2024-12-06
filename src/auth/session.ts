@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cookies } from "next/headers";
+import { cache } from "react";
 
 import { sha256 } from "@oslojs/crypto/sha2";
 import {
@@ -97,6 +98,17 @@ export async function deleteSessionTokenCookie(): Promise<void> {
         path: "/",
     });
 }
+
+export const getCurrentSession = cache(
+    async (): Promise<SessionValidationResult> => {
+        const cookieStore = await cookies();
+        const token = cookieStore.get("session")?.value ?? null;
+        if (token === null) {
+            return { session: null, user: null };
+        }
+        return await validateSessionToken(token);
+    }
+);
 
 export type SessionValidationResult =
     | { session: Session; user: User }
