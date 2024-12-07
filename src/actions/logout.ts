@@ -17,7 +17,6 @@ export async function logout(): Promise<LogoutResult> {
         }
         await invalidateSession(session.id);
         await deleteSessionTokenCookie();
-        redirect("/login");
     } catch (e) {
         console.error(e);
         if (e instanceof Error) {
@@ -25,4 +24,5 @@ export async function logout(): Promise<LogoutResult> {
         }
         return { error: "Error while invalidating session" };
     }
+    return redirect("/login");
 }
