@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1733078757007,
-      "tag": "0000_lyrical_victor_mancha",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1733096081169,
-      "tag": "0001_ancient_dexter_bennett",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1733245361994,
-      "tag": "0002_wakeful_blockbuster",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1733257697807,
-      "tag": "0003_harsh_living_mummy",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1733666420739,
-      "tag": "0004_equal_gravity",
+      "when": 1733691592275,
+      "tag": "0000_ambiguous_scorpion",
       "breakpoints": true
     }
   ]

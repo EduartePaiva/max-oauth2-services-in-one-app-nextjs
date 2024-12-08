@@ -1,6 +1,6 @@
 import "server-only";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import db from ".";
 import { type User, users } from "./schema";
@@ -8,16 +8,22 @@ import { type User, users } from "./schema";
 /**
  * @throws In case of a database error
  */
-export async function getUserFromGoogleId(
-    googleUserId: string
+export async function getUserFromProviderNameAndId(
+    providerUserId: string,
+    providerName: User["providerName"]
 ): Promise<User | null> {
-    const userLst = await db
+    const user = await db
         .select()
         .from(users)
-        .where(eq(users.googleId, googleUserId));
+        .where(
+            and(
+                eq(users.providerUserId, providerUserId),
+                eq(users.providerName, providerName)
+            )
+        );
 
-    if (userLst.length > 0) {
-        return userLst[0];
+    if (user.length > 0) {
+        return user[0];
     }
     return null;
 }
