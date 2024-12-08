@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { ChevronLeft } from "lucide-react";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { TbBrandOauth } from "react-icons/tb";
 
 import { Button } from "@/components/ui/button";
@@ -36,6 +36,12 @@ export default function LoginPage() {
                     LogoIcon={FaGithub}
                     name="Github"
                     href="/login/github"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={FaGoogle}
+                    name="Google"
+                    href="/login/google"
+                    className="bg-[#db4639] hover:bg-[#db4639]/90"
                 />
             </div>
         </>

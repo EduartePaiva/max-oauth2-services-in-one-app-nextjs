@@ -6,15 +6,21 @@ type ProviderLoginBtn = {
     LogoIcon: IconType;
     name: string;
     href: string;
+    className?: string;
 };
 
 export default function ProviderLoginBtn({
     LogoIcon,
     name,
     href,
+    className,
 }: ProviderLoginBtn) {
     return (
-        <a className={buttonVariants({ size: "lg" })} type="submit" href={href}>
+        <a
+            className={buttonVariants({ size: "lg", className })}
+            type="submit"
+            href={href}
+        >
             <span className="flex items-center gap-2">Login With {name}</span>
             <LogoIcon
                 style={{

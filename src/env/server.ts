@@ -21,6 +21,9 @@ export const env = createEnv({
             .optional(),
         GITHUB_CLIENT_ID: z.string(),
         GITHUB_CLIENT_SECRET: z.string(),
+        GOOGLE_CLIENT_ID: z.string(),
+        GOOGLE_CLIENT_SECRET: z.string(),
+        GOOGLE_REDIRECT_URI: z.string().url(),
     },
     onValidationError: (error: ZodError) => {
         console.error(
