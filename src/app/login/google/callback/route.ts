@@ -8,9 +8,9 @@ import {
     generateSessionToken,
     setSessionTokenCookie,
 } from "@/auth/session";
-import db from "@/db";
-import { getUserFromGoogleId } from "@/db/db-queries";
-import { User, users } from "@/db/schema";
+import { createUser } from "@/db/db-insert";
+import { getUserFromProviderNameAndId } from "@/db/db-queries";
+import { User } from "@/db/schema";
 import { googleData } from "@/lib/zod/oauth-providers";
 
 export async function GET(request: Request) {
@@ -52,20 +52,24 @@ export async function GET(request: Request) {
 
     let user: User;
     try {
-        const queriedUser = await getUserFromGoogleId(googleUserId);
-        if (queriedUser === null) {
+        const dbUser = await getUserFromProviderNameAndId(
+            googleUserId,
+            "google"
+        );
+        if (dbUser === null) {
             // create a new user
-            const newUser = await db
-                .insert(users)
-                .values({
-                    googleId: googleUserId,
+            const newUser = await createUser(
+                {
+                    providerName: "google",
+                    providerUserId: googleUserId,
                     username: googleUsername,
                     avatarUrl: googleUserAvatar,
-                })
-                .returning();
-            user = newUser[0];
+                },
+                true
+            );
+            user = newUser;
         } else {
-            user = queriedUser;
+            user = dbUser;
         }
     } catch (e) {
         console.error(e);
