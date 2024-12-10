@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 
 import { OAuth2Tokens } from "arctic";
-import { eq } from "drizzle-orm";
 
 import { github } from "@/auth/oauth/github";
 import {
@@ -9,8 +8,9 @@ import {
     generateSessionToken,
     setSessionTokenCookie,
 } from "@/auth/session";
-import db from "@/db";
-import { User, users } from "@/db/schema";
+import { createUser } from "@/db/db-insert";
+import { getUserFromProviderNameAndId } from "@/db/db-queries";
+import { User } from "@/db/schema";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -48,24 +48,25 @@ export async function GET(request: Request) {
         const githubUserId = githubUser.id as number;
         const githubUserAvatar = githubUser.avatar_url as string;
         const githubUsername = githubUser.name as string;
-        const userLst = await db
-            .select()
-            .from(users)
-            .where(eq(users.githubId, githubUserId.toString()));
 
-        if (userLst.length === 0) {
+        const dbUser = await getUserFromProviderNameAndId(
+            githubUserId.toString(),
+            "github"
+        );
+        if (dbUser === null) {
             // create a new user
-            const newUser = await db
-                .insert(users)
-                .values({
-                    githubId: githubUserId.toString(),
+            const newUser = await createUser(
+                {
+                    providerName: "github",
+                    providerUserId: githubUserId.toString(),
                     username: githubUsername,
                     avatarUrl: githubUserAvatar,
-                })
-                .returning();
-            user = newUser[0];
+                },
+                true
+            );
+            user = newUser;
         } else {
-            user = userLst[0];
+            user = dbUser;
         }
     } catch (e) {
         console.error(e);

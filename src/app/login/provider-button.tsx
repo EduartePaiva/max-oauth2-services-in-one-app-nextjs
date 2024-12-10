@@ -1,6 +1,7 @@
 import { IconType } from "react-icons/lib";
 
 import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type ProviderLoginBtn = {
     LogoIcon: IconType;
@@ -17,7 +18,12 @@ export default function ProviderLoginBtn({
 }: ProviderLoginBtn) {
     return (
         <a
-            className={buttonVariants({ size: "lg", className })}
+            className={cn(
+                buttonVariants({
+                    size: "lg",
+                }),
+                className
+            )}
             type="submit"
             href={href}
         >
