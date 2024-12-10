@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default async function Home() {
     const { user } = await getCurrentSession();
-    if (!user) redirect("/login");
+    if (!user) return redirect("/login");
     return (
         <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
             <Avatar className="size-20 transition hover:scale-110">
