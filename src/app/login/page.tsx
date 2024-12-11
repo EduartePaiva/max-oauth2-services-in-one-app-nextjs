@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { ChevronLeft } from "lucide-react";
-import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
+import { FaDiscord, FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import { TbBrandOauth } from "react-icons/tb";
 
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,12 @@ export default function LoginPage() {
                     name="Discord"
                     href="/login/discord"
                     className="bg-[#7289d9] hover:bg-[#7289d9]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={FaFacebook}
+                    name="Facebook"
+                    href="/login/facebook"
+                    className="bg-[#0165E1] hover:bg-[#0165E1]/90"
                 />
             </div>
         </>

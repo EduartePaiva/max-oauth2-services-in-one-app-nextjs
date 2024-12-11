@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { generateCodeVerifier, generateState } from "arctic";
 
-import { google } from "@/auth/oauth/google";
+import { google } from "@/auth/arctic-providers";
 import { env } from "@/env/server";
 
 export async function GET(): Promise<Response> {

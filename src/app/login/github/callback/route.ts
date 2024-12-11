@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { OAuth2Tokens } from "arctic";
 
-import { github } from "@/auth/oauth/github";
+import { github } from "@/auth/arctic-providers";
 import {
     createSession,
     generateSessionToken,

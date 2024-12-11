@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { OAuth2Tokens, decodeIdToken } from "arctic";
 
-import { google } from "@/auth/oauth/google";
+import { google } from "@/auth/arctic-providers";
 import {
     createSession,
     generateSessionToken,

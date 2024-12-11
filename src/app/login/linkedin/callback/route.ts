@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { OAuth2Tokens, decodeIdToken } from "arctic";
 
-import { linkedin } from "@/auth/oauth/linkedin";
+import { linkedin } from "@/auth/arctic-providers";
 import {
     createSession,
     generateSessionToken,
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
         throw new Error("stopped here");
     }
 
-    // todo here
+    // todo here need to get linkedin client and secret
     const {
         name: linkedinUsername,
         sub: linkedinUserId,

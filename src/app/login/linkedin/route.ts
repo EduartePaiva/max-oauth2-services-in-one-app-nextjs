@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 import { generateState } from "arctic";
 
-import { linkedin } from "@/auth/oauth/linkedin";
+import { linkedin } from "@/auth/arctic-providers";
 import { env } from "@/env/server";
 
 export async function GET(): Promise<Response> {

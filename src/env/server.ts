@@ -30,6 +30,9 @@ export const env = createEnv({
         LINKEDIN_CLIENT_ID: z.string(),
         LINKEDIN_CLIENT_SECRET: z.string(),
         LINKEDIN_REDIRECT_URI: z.string().url(),
+        FACEBOOK_CLIENT_ID: z.string(),
+        FACEBOOK_CLIENT_SECRET: z.string(),
+        FACEBOOK_REDIRECT_URI: z.string().url(),
     },
     onValidationError: (error: ZodError) => {
         console.error(
