@@ -8,10 +8,10 @@ import {
     generateSessionToken,
     setSessionTokenCookie,
 } from "@/auth/session";
+import { linkedinData } from "@/auth/zod-oauth-providers";
 import { createUser } from "@/db/db-insert";
 import { getUserFromProviderNameAndId } from "@/db/db-queries";
 import { User } from "@/db/schema";
-import { linkedinData } from "@/lib/zod/oauth-providers";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
