@@ -10,7 +10,7 @@ const usersTable = pgTable(
         providerUserId: varchar({ length: 255 }).notNull(),
         providerName: varchar({
             length: 255,
-            enum: ["google", "github"],
+            enum: ["google", "github", "discord"],
         }).notNull(),
     },
     (table) => [

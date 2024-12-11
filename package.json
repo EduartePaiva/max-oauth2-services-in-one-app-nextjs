@@ -8,7 +8,8 @@
         "start": "next start",
         "lint": "next lint",
         "db:migrate": "cross-env DB_MIGRATING=true drizzle-kit migrate",
-        "db:generate": "drizzle-kit generate"
+        "db:generate": "drizzle-kit generate",
+        "db:studio": "drizzle-kit studio"
     },
     "dependencies": {
         "@oslojs/crypto": "^1.0.1",

@@ -13,8 +13,8 @@ export default async function Home() {
                 <AvatarImage src={user.avatarUrl ?? undefined} />
                 <AvatarFallback>{user.username.slice(0, 2)}</AvatarFallback>
             </Avatar>
-            <h1 className="text-wrap text-2xl font-bold text-slate-700">
-                Welcome back {user.username}
+            <h1 className="text-wrap text-2xl font-bold capitalize text-slate-700">
+                welcome back {user.username}
             </h1>
             <LogoutBtn />
         </div>
