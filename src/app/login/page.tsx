@@ -3,9 +3,10 @@
 import Link from "next/link";
 
 import { ChevronLeft } from "lucide-react";
-import { FaGithub, FaGoogle } from "react-icons/fa";
+import { FaDiscord, FaGithub, FaGoogle } from "react-icons/fa";
 import { TbBrandOauth } from "react-icons/tb";
 
+import MyAnimeListIcon from "@/components/custom-icons/my-anime-list";
 import { Button } from "@/components/ui/button";
 
 import ProviderLoginBtn from "./provider-button";
@@ -42,6 +43,18 @@ export default function LoginPage() {
                     name="Google"
                     href="/login/google"
                     className="bg-[#db4639] hover:bg-[#db4639]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={FaDiscord}
+                    name="Discord"
+                    href="/login/discord"
+                    className="bg-[#7289d9] hover:bg-[#7289d9]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={MyAnimeListIcon}
+                    name="MyAnimeList"
+                    href="/login/myanimelist"
+                    className="bg-[#2c51a2] hover:bg-[#2c51a2]/90"
                 />
             </div>
         </>

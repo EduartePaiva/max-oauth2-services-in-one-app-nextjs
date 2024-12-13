@@ -14,5 +14,5 @@
         "**/app/**/route.ts": "${dirname} - Route",
         "**/components/**/index.tsx": "${dirname} - Component"
     },
-    "cSpell.words": ["linkedin"]
+    "cSpell.words": ["linkedin", "myanimelist"]
 }

@@ -13,3 +13,8 @@ export const discordData = z.object({
     username: z.string().min(1),
     avatar: z.string().min(1),
 });
+export const myAnimeListData = z.object({
+    id: z.number(),
+    name: z.string().min(1),
+    picture: z.string().min(1),
+});

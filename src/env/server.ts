@@ -27,6 +27,9 @@ export const env = createEnv({
         DISCORD_CLIENT_ID: z.string(),
         DISCORD_CLIENT_SECRET: z.string(),
         DISCORD_REDIRECT_URI: z.string().url(),
+        MYANIMELIST_CLIENT_ID: z.string(),
+        MYANIMELIST_CLIENT_SECRET: z.string(),
+        MYANIMELIST_REDIRECT_URI: z.string().url(),
     },
     onValidationError: (error: ZodError) => {
         console.error(
