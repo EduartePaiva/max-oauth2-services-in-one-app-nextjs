@@ -30,8 +30,8 @@ export default function ProviderLoginBtn({
             <span className="flex items-center gap-2">Login With {name}</span>
             <LogoIcon
                 style={{
-                    width: "2.5em",
-                    height: "2.5em",
+                    width: "1.5em",
+                    height: "1.5em",
                 }}
             />
         </a>

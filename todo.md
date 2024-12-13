@@ -8,10 +8,10 @@ source: https://myanimelist.net/apiconfig/references/authorization#step-2-client
 
 ## Providers that I tried
 
-[x] - Facebook
-[x] - linkedin
-[_] - MyAnimeList
-[_] - Reddit
+[x] - Facebook - failed
+[x] - linkedin - failed
+[x] - MyAnimeList - worked
+[x] - Reddit - Reddit oauth docs https://www.reddit.com/prefs/apps
 [_] - Roblox
 [_] - Salesforce
 [_] - Spotify
