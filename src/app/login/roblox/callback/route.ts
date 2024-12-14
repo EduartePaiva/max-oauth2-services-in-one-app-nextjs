@@ -2,13 +2,13 @@ import { cookies } from "next/headers";
 
 import { ArcticFetchError, OAuth2RequestError, OAuth2Tokens } from "arctic";
 
-import { reddit } from "@/auth/arctic-providers";
+import { roblox } from "@/auth/arctic-providers";
 import {
     createSession,
     generateSessionToken,
     setSessionTokenCookie,
 } from "@/auth/session";
-import { redditData } from "@/auth/zod-oauth-providers";
+import { robloxData } from "@/auth/zod-oauth-providers";
 import { createUser } from "@/db/db-insert";
 import { getUserFromProviderNameAndId } from "@/db/db-queries";
 import { User } from "@/db/schema";
@@ -18,21 +18,29 @@ export async function GET(request: Request) {
     const state = url.searchParams.get("state");
     const code = url.searchParams.get("code");
     const cookieStore = await cookies();
-    const storedState = cookieStore.get("reddit_oauth_state")?.value ?? null;
+    const storedState = cookieStore.get("roblox_oauth_state")?.value ?? null;
+    const codeVerifier = cookieStore.get("roblox_code_verifier")?.value ?? null;
 
-    if (state === null || code === null || cookieStore === null) {
+    if (
+        state === null ||
+        code === null ||
+        cookieStore === null ||
+        codeVerifier === null
+    ) {
         // todo redirect to a error page
+        console.log("something is null");
         return new Response(null, { status: 400 });
     }
 
     if (storedState !== state) {
         // todo error regarding state diff
+        console.log("state differ");
         return new Response(null, { status: 400 });
     }
 
     let tokens: OAuth2Tokens;
     try {
-        tokens = await reddit.validateAuthorizationCode(code);
+        tokens = await roblox.validateAuthorizationCode(code, codeVerifier);
     } catch (e) {
         let errorMsg = "";
         if (e instanceof OAuth2RequestError) {
@@ -50,27 +58,35 @@ export async function GET(request: Request) {
 
     let user: User;
     try {
-        // fetch userId from reddit
-        const response = await fetch("https://oauth.reddit.com/api/v1/me", {
-            headers: {
-                Authorization: `Bearer ${tokens.accessToken()}`,
-            },
-        });
+        // fetch userId from roblox
+        const response = await fetch(
+            "https://apis.roblox.com/oauth/v1/userinfo",
+            {
+                headers: {
+                    Authorization: `Bearer ${tokens.accessToken()}`,
+                },
+            }
+        );
         const userJsonData = await response.json();
-        const { id: providerUserId, name: username } =
-            redditData.parse(userJsonData);
-        // todo: after fetching the provider data, all remaining logic can be encapsulated in one function
+        console.log(userJsonData);
+        const {
+            sub: providerUserId,
+            name: username,
+            picture: avatarUrl,
+        } = robloxData.parse(userJsonData);
+
         const dbUser = await getUserFromProviderNameAndId(
             providerUserId,
-            "reddit"
+            "roblox"
         );
         if (dbUser === null) {
             // create a new user
             const newUser = await createUser(
                 {
-                    providerName: "reddit",
+                    providerName: "roblox",
                     providerUserId: providerUserId,
                     username,
+                    avatarUrl,
                 },
                 true
             );

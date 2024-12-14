@@ -1,4 +1,4 @@
-import { Discord, GitHub, Google, MyAnimeList, Reddit } from "arctic";
+import { Discord, GitHub, Google, MyAnimeList, Reddit, Roblox } from "arctic";
 
 import { env } from "@/env/server";
 
@@ -30,4 +30,10 @@ export const reddit = new Reddit(
     env.REDDIT_CLIENT_ID,
     env.REDDIT_CLIENT_SECRET,
     env.REDDIT_REDIRECT_URI
+);
+
+export const roblox = new Roblox(
+    env.ROBLOX_CLIENT_ID,
+    env.ROBLOX_CLIENT_SECRET,
+    env.ROBLOX_REDIRECT_URI
 );

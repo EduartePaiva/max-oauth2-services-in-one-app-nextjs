@@ -7,6 +7,7 @@ import { FaDiscord, FaGithub, FaGoogle, FaReddit } from "react-icons/fa";
 import { TbBrandOauth } from "react-icons/tb";
 
 import MyAnimeListIcon from "@/components/custom-icons/my-anime-list";
+import RobloxIcon from "@/components/custom-icons/roblox";
 import { Button } from "@/components/ui/button";
 
 import ProviderLoginBtn from "./provider-button";
@@ -61,6 +62,12 @@ export default function LoginPage() {
                     name="Reddit"
                     href="/login/reddit"
                     className="bg-[#FF4500] hover:bg-[#FF4500]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={RobloxIcon}
+                    name="Roblox"
+                    href="/login/roblox"
+                    className="bg-[rgb(17,18,22)] hover:bg-[rgb(17,18,22)]/90"
                 />
             </div>
         </>
