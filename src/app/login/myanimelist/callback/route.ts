@@ -9,9 +9,7 @@ import {
     setSessionTokenCookie,
 } from "@/auth/session";
 import { myAnimeListData } from "@/auth/zod-oauth-providers";
-import { createUser } from "@/db/db-insert";
-import { getUserFromProviderNameAndId } from "@/db/db-queries";
-import { User } from "@/db/schema";
+import { getOrCreateNewUserAndReturn } from "@/db/db-utils";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -49,19 +47,15 @@ export async function GET(request: Request) {
         if (e instanceof OAuth2RequestError) {
             // Invalid authorization code, credentials, or redirect URI
             errorMsg = e.message;
-            // ...
         }
         if (e instanceof ArcticFetchError) {
             // Failed to call `fetch()`
             errorMsg = e.message;
-            // ...
         }
-        // Parse error
         console.error(errorMsg.length > 0 ? errorMsg : e);
         return new Response(null, { status: 400 });
     }
 
-    let user: User;
     try {
         // fetch userId from myanimelist
         const response = await fetch(
@@ -79,33 +73,14 @@ export async function GET(request: Request) {
             picture: avatarUrl,
         } = myAnimeListData.parse(userJsonData);
 
-        const dbUser = await getUserFromProviderNameAndId(
-            providerUserId.toString(),
-            "myanimelist"
-        );
-        if (dbUser === null) {
-            // create a new user
-            const newUser = await createUser(
-                {
-                    providerName: "myanimelist",
-                    providerUserId: providerUserId.toString(),
-                    username,
-                    avatarUrl,
-                },
-                true
-            );
-            user = newUser;
-        } else {
-            user = dbUser;
-        }
-    } catch (e) {
-        console.error(e);
-        return new Response("error fetching database", { status: 400 });
-    }
+        const user = await getOrCreateNewUserAndReturn({
+            providerName: "myanimelist",
+            providerUserId: providerUserId.toString(),
+            username,
+            avatarUrl,
+        });
 
-    // create a session for this user
-    const sessionToken = generateSessionToken();
-    try {
+        const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         await setSessionTokenCookie(sessionToken, session.expiresAt);
         return new Response(null, {
@@ -116,6 +91,6 @@ export async function GET(request: Request) {
         });
     } catch (e) {
         console.error(e);
-        return new Response(null, { status: 400 });
+        return new Response("error authenticating user", { status: 400 });
     }
 }

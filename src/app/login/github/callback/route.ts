@@ -8,9 +8,7 @@ import {
     generateSessionToken,
     setSessionTokenCookie,
 } from "@/auth/session";
-import { createUser } from "@/db/db-insert";
-import { getUserFromProviderNameAndId } from "@/db/db-queries";
-import { User } from "@/db/schema";
+import { getOrCreateNewUserAndReturn } from "@/db/db-utils";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -37,7 +35,6 @@ export async function GET(request: Request) {
         return new Response(null, { status: 400 });
     }
 
-    let user: User;
     try {
         const githubUserResponse = await fetch("https://api.github.com/user", {
             headers: {
@@ -49,33 +46,14 @@ export async function GET(request: Request) {
         const githubUserAvatar = githubUser.avatar_url as string;
         const githubUsername = githubUser.name as string;
 
-        const dbUser = await getUserFromProviderNameAndId(
-            githubUserId.toString(),
-            "github"
-        );
-        if (dbUser === null) {
-            // create a new user
-            const newUser = await createUser(
-                {
-                    providerName: "github",
-                    providerUserId: githubUserId.toString(),
-                    username: githubUsername,
-                    avatarUrl: githubUserAvatar,
-                },
-                true
-            );
-            user = newUser;
-        } else {
-            user = dbUser;
-        }
-    } catch (e) {
-        console.error(e);
-        return new Response("error fetching database", { status: 400 });
-    }
+        const user = await getOrCreateNewUserAndReturn({
+            providerName: "github",
+            providerUserId: githubUserId.toString(),
+            username: githubUsername,
+            avatarUrl: githubUserAvatar,
+        });
 
-    // create a session for this user
-    const sessionToken = generateSessionToken();
-    try {
+        const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         await setSessionTokenCookie(sessionToken, session.expiresAt);
         return new Response(null, {
@@ -86,6 +64,6 @@ export async function GET(request: Request) {
         });
     } catch (e) {
         console.error(e);
-        return new Response(null, { status: 400 });
+        return new Response("error authenticating user", { status: 400 });
     }
 }

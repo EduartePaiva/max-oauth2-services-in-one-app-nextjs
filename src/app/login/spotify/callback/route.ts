@@ -3,15 +3,9 @@ import { cookies } from "next/headers";
 import { ArcticFetchError, OAuth2RequestError, OAuth2Tokens } from "arctic";
 
 import { spotify } from "@/auth/arctic-providers";
-import {
-    createSession,
-    generateSessionToken,
-    setSessionTokenCookie,
-} from "@/auth/session";
+import { createSession, generateSessionToken, setSessionTokenCookie } from "@/auth/session";
 import { spotifyData } from "@/auth/zod-oauth-providers";
-import { createUser } from "@/db/db-insert";
-import { getUserFromProviderNameAndId } from "@/db/db-queries";
-import { User } from "@/db/schema";
+import { getOrCreateNewUserAndReturn } from "@/db/db-utils";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -48,7 +42,6 @@ export async function GET(request: Request) {
         return new Response(null, { status: 400 });
     }
 
-    let user: User;
     try {
         // fetch userId from spotify
         const response = await fetch("https://api.spotify.com/v1/me", {
@@ -58,37 +51,15 @@ export async function GET(request: Request) {
         });
         const userJsonData = await response.json();
         const parsedData = spotifyData.parse(userJsonData);
-        // todo: after fetching the provider data, all remaining logic can be encapsulated in one function
-        const dbUser = await getUserFromProviderNameAndId(
-            parsedData.id,
-            "spotify"
-        );
-        if (dbUser === null) {
-            // create a new user
-            const newUser = await createUser(
-                {
-                    providerName: "spotify",
-                    providerUserId: parsedData.id,
-                    username: parsedData.display_name ?? "Spotify User",
-                    avatarUrl:
-                        parsedData.images.length > 0
-                            ? parsedData.images[0].url
-                            : null,
-                },
-                true
-            );
-            user = newUser;
-        } else {
-            user = dbUser;
-        }
-    } catch (e) {
-        console.error(e);
-        return new Response("error fetching database", { status: 400 });
-    }
 
-    // create a session for this user
-    const sessionToken = generateSessionToken();
-    try {
+        const user = await getOrCreateNewUserAndReturn({
+            providerName: "spotify",
+            providerUserId: parsedData.id,
+            username: parsedData.display_name ?? "Spotify User",
+            avatarUrl: parsedData.images.length > 0 ? parsedData.images[0].url : null,
+        });
+
+        const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         await setSessionTokenCookie(sessionToken, session.expiresAt);
         return new Response(null, {
@@ -99,6 +70,6 @@ export async function GET(request: Request) {
         });
     } catch (e) {
         console.error(e);
-        return new Response(null, { status: 400 });
+        return new Response("error authenticating user", { status: 400 });
     }
 }

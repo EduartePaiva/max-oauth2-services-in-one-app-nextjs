@@ -9,9 +9,7 @@ import {
     setSessionTokenCookie,
 } from "@/auth/session";
 import { discordData } from "@/auth/zod-oauth-providers";
-import { createUser } from "@/db/db-insert";
-import { getUserFromProviderNameAndId } from "@/db/db-queries";
-import { User } from "@/db/schema";
+import { getOrCreateNewUserAndReturn } from "@/db/db-utils";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -38,7 +36,6 @@ export async function GET(request: Request) {
         return new Response(null, { status: 400 });
     }
 
-    let user: User;
     try {
         const discordUserResponse = await fetch(
             "https://discord.com/api/users/@me",
@@ -49,40 +46,21 @@ export async function GET(request: Request) {
             }
         );
         const discordUserData = await discordUserResponse.json();
-        console.log(discordUserData);
         const {
             id: discordUserId,
             username: discordUsername,
             avatar,
         } = discordData.parse(discordUserData);
         const discordUserAvatar = `https://cdn.discordapp.com/avatars/${discordUserId}/${avatar}.jpeg`;
-        const dbUser = await getUserFromProviderNameAndId(
-            discordUserId,
-            "discord"
-        );
-        if (dbUser === null) {
-            // create a new user
-            const newUser = await createUser(
-                {
-                    providerName: "discord",
-                    providerUserId: discordUserId,
-                    username: discordUsername,
-                    avatarUrl: discordUserAvatar,
-                },
-                true
-            );
-            user = newUser;
-        } else {
-            user = dbUser;
-        }
-    } catch (e) {
-        console.error(e);
-        return new Response("error fetching database", { status: 400 });
-    }
 
-    // create a session for this user
-    const sessionToken = generateSessionToken();
-    try {
+        const user = await getOrCreateNewUserAndReturn({
+            providerName: "discord",
+            providerUserId: discordUserId,
+            username: discordUsername,
+            avatarUrl: discordUserAvatar,
+        });
+
+        const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         await setSessionTokenCookie(sessionToken, session.expiresAt);
         return new Response(null, {
@@ -93,6 +71,8 @@ export async function GET(request: Request) {
         });
     } catch (e) {
         console.error(e);
-        return new Response(null, { status: 400 });
+        return new Response("error during user authentication", {
+            status: 400,
+        });
     }
 }

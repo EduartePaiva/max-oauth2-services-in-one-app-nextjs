@@ -9,9 +9,7 @@ import {
     setSessionTokenCookie,
 } from "@/auth/session";
 import { robloxData } from "@/auth/zod-oauth-providers";
-import { createUser } from "@/db/db-insert";
-import { getUserFromProviderNameAndId } from "@/db/db-queries";
-import { User } from "@/db/schema";
+import { getOrCreateNewUserAndReturn } from "@/db/db-utils";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -56,7 +54,6 @@ export async function GET(request: Request) {
         return new Response(null, { status: 400 });
     }
 
-    let user: User;
     try {
         // fetch userId from roblox
         const response = await fetch(
@@ -75,33 +72,14 @@ export async function GET(request: Request) {
             picture: avatarUrl,
         } = robloxData.parse(userJsonData);
 
-        const dbUser = await getUserFromProviderNameAndId(
+        const user = await getOrCreateNewUserAndReturn({
+            providerName: "roblox",
             providerUserId,
-            "roblox"
-        );
-        if (dbUser === null) {
-            // create a new user
-            const newUser = await createUser(
-                {
-                    providerName: "roblox",
-                    providerUserId: providerUserId,
-                    username,
-                    avatarUrl,
-                },
-                true
-            );
-            user = newUser;
-        } else {
-            user = dbUser;
-        }
-    } catch (e) {
-        console.error(e);
-        return new Response("error fetching database", { status: 400 });
-    }
+            username,
+            avatarUrl,
+        });
 
-    // create a session for this user
-    const sessionToken = generateSessionToken();
-    try {
+        const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         await setSessionTokenCookie(sessionToken, session.expiresAt);
         return new Response(null, {
@@ -112,6 +90,6 @@ export async function GET(request: Request) {
         });
     } catch (e) {
         console.error(e);
-        return new Response(null, { status: 400 });
+        return new Response("error authenticating user", { status: 400 });
     }
 }

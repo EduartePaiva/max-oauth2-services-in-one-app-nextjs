@@ -9,9 +9,7 @@ import {
     setSessionTokenCookie,
 } from "@/auth/session";
 import { redditData } from "@/auth/zod-oauth-providers";
-import { createUser } from "@/db/db-insert";
-import { getUserFromProviderNameAndId } from "@/db/db-queries";
-import { User } from "@/db/schema";
+import { getOrCreateNewUserAndReturn } from "@/db/db-utils";
 
 export async function GET(request: Request) {
     const url = new URL(request.url);
@@ -48,7 +46,6 @@ export async function GET(request: Request) {
         return new Response(null, { status: 400 });
     }
 
-    let user: User;
     try {
         // fetch userId from reddit
         const response = await fetch("https://oauth.reddit.com/api/v1/me", {
@@ -59,33 +56,14 @@ export async function GET(request: Request) {
         const userJsonData = await response.json();
         const { id: providerUserId, name: username } =
             redditData.parse(userJsonData);
-        // todo: after fetching the provider data, all remaining logic can be encapsulated in one function
-        const dbUser = await getUserFromProviderNameAndId(
-            providerUserId,
-            "reddit"
-        );
-        if (dbUser === null) {
-            // create a new user
-            const newUser = await createUser(
-                {
-                    providerName: "reddit",
-                    providerUserId: providerUserId,
-                    username,
-                },
-                true
-            );
-            user = newUser;
-        } else {
-            user = dbUser;
-        }
-    } catch (e) {
-        console.error(e);
-        return new Response("error fetching database", { status: 400 });
-    }
 
-    // create a session for this user
-    const sessionToken = generateSessionToken();
-    try {
+        const user = await getOrCreateNewUserAndReturn({
+            providerName: "reddit",
+            providerUserId,
+            username,
+        });
+
+        const sessionToken = generateSessionToken();
         const session = await createSession(sessionToken, user.id);
         await setSessionTokenCookie(sessionToken, session.expiresAt);
         return new Response(null, {
@@ -96,6 +74,6 @@ export async function GET(request: Request) {
         });
     } catch (e) {
         console.error(e);
-        return new Response(null, { status: 400 });
+        return new Response("error authenticating user", { status: 400 });
     }
 }
