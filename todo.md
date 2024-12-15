@@ -14,7 +14,7 @@ source: https://myanimelist.net/apiconfig/references/authorization#step-2-client
 [x] - Reddit - Reddit oauth docs https://www.reddit.com/prefs/apps
 [x] - Roblox
 [x] - Salesforce - I can't even create an account on this
-[_] - Spotify
+[x] - Spotify
 [_] - Slack
 [_] - Twitch
 [_] - Twitter/X
