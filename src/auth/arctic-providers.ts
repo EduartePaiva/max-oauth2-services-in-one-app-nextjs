@@ -1,4 +1,12 @@
-import { Discord, GitHub, Google, MyAnimeList, Reddit, Roblox } from "arctic";
+import {
+    Discord,
+    GitHub,
+    Google,
+    MyAnimeList,
+    Reddit,
+    Roblox,
+    Spotify,
+} from "arctic";
 
 import { env } from "@/env/server";
 
@@ -36,4 +44,10 @@ export const roblox = new Roblox(
     env.ROBLOX_CLIENT_ID,
     env.ROBLOX_CLIENT_SECRET,
     env.ROBLOX_REDIRECT_URI
+);
+
+export const spotify = new Spotify(
+    env.SPOTIFY_CLIENT_ID,
+    env.SPOTIFY_CLIENT_SECRET,
+    env.SPOTIFY_REDIRECT_URI
 );

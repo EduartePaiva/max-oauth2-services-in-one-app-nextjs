@@ -13,7 +13,7 @@ source: https://myanimelist.net/apiconfig/references/authorization#step-2-client
 [x] - MyAnimeList - worked
 [x] - Reddit - Reddit oauth docs https://www.reddit.com/prefs/apps
 [x] - Roblox
-[_] - Salesforce
+[x] - Salesforce - I can't even create an account on this
 [_] - Spotify
 [_] - Slack
 [_] - Twitch

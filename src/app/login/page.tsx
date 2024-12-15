@@ -3,7 +3,13 @@
 import Link from "next/link";
 
 import { ChevronLeft } from "lucide-react";
-import { FaDiscord, FaGithub, FaGoogle, FaReddit } from "react-icons/fa";
+import {
+    FaDiscord,
+    FaGithub,
+    FaGoogle,
+    FaReddit,
+    FaSpotify,
+} from "react-icons/fa";
 import { TbBrandOauth } from "react-icons/tb";
 
 import MyAnimeListIcon from "@/components/custom-icons/my-anime-list";
@@ -68,6 +74,12 @@ export default function LoginPage() {
                     name="Roblox"
                     href="/login/roblox"
                     className="bg-[rgb(17,18,22)] hover:bg-[rgb(17,18,22)]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={FaSpotify}
+                    name="Spotify"
+                    href="/login/spotify"
+                    className="bg-[#1ED760] hover:bg-[#1ED760]/90"
                 />
             </div>
         </>

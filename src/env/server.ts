@@ -36,6 +36,9 @@ export const env = createEnv({
         ROBLOX_CLIENT_ID: z.string(),
         ROBLOX_CLIENT_SECRET: z.string(),
         ROBLOX_REDIRECT_URI: z.string().url(),
+        SPOTIFY_CLIENT_ID: z.string(),
+        SPOTIFY_CLIENT_SECRET: z.string(),
+        SPOTIFY_REDIRECT_URI: z.string().url(),
     },
     onValidationError: (error: ZodError) => {
         console.error(

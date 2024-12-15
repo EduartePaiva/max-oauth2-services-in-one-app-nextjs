@@ -30,3 +30,15 @@ export const robloxData = z.object({
     name: z.string().min(1),
     picture: z.string().nullable(),
 });
+
+export const spotifyData = z.object({
+    id: z.string(),
+    display_name: z.string().nullable(),
+    images: z.array(
+        z.object({
+            url: z.string().url(),
+            height: z.number().nullable(),
+            width: z.number().nullable(),
+        })
+    ),
+});

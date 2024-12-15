@@ -17,6 +17,7 @@ const usersTable = pgTable(
                 "myanimelist",
                 "reddit",
                 "roblox",
+                "spotify",
             ],
         }).notNull(),
     },
