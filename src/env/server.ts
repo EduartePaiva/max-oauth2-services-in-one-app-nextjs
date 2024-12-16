@@ -39,12 +39,12 @@ export const env = createEnv({
         SPOTIFY_CLIENT_ID: z.string(),
         SPOTIFY_CLIENT_SECRET: z.string(),
         SPOTIFY_REDIRECT_URI: z.string().url(),
+        TWITCH_CLIENT_ID: z.string(),
+        TWITCH_CLIENT_SECRET: z.string(),
+        TWITCH_REDIRECT_URI: z.string().url(),
     },
     onValidationError: (error: ZodError) => {
-        console.error(
-            "❌ Invalid environment variables:",
-            error.flatten().fieldErrors
-        );
+        console.error("❌ Invalid environment variables:", error.flatten().fieldErrors);
         process.exit(1);
     },
     emptyStringAsUndefined: true,

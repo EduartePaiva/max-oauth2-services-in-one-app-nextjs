@@ -42,3 +42,16 @@ export const spotifyData = z.object({
         })
     ),
 });
+
+export const twitchData = z.object({
+    data: z.array(
+        z.object({
+            display_name: z.string(),
+            profile_image_url: z.string().url(),
+        })
+    ),
+});
+export const twitchTokenData = z.object({
+    sub: z.string(),
+    aud: z.string(),
+});

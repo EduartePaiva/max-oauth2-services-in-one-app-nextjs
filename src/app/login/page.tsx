@@ -3,13 +3,7 @@
 import Link from "next/link";
 
 import { ChevronLeft } from "lucide-react";
-import {
-    FaDiscord,
-    FaGithub,
-    FaGoogle,
-    FaReddit,
-    FaSpotify,
-} from "react-icons/fa";
+import { FaDiscord, FaGithub, FaGoogle, FaReddit, FaSpotify, FaTwitch } from "react-icons/fa";
 import { TbBrandOauth } from "react-icons/tb";
 
 import MyAnimeListIcon from "@/components/custom-icons/my-anime-list";
@@ -32,19 +26,13 @@ export default function LoginPage() {
             <div className="absolute left-1/2 top-1/2 flex w-[360px] -translate-x-1/2 -translate-y-1/2 flex-col gap-4 rounded-lg bg-gray-50 p-6 shadow-md">
                 <div className="mb-2 flex flex-col items-center text-center text-gray-700">
                     <TbBrandOauth size={28} />
-                    <h1 className="text-lg font-bold">
-                        Login to a OAuth 2.0 Provider
-                    </h1>
+                    <h1 className="text-lg font-bold">Login to a OAuth 2.0 Provider</h1>
                     <p className="text-balance text-[0.8125rem] text-muted-foreground">
                         Welcome back! Please chose a provider to continue!
                     </p>
                 </div>
 
-                <ProviderLoginBtn
-                    LogoIcon={FaGithub}
-                    name="Github"
-                    href="/login/github"
-                />
+                <ProviderLoginBtn LogoIcon={FaGithub} name="Github" href="/login/github" />
                 <ProviderLoginBtn
                     LogoIcon={FaGoogle}
                     name="Google"
@@ -80,6 +68,12 @@ export default function LoginPage() {
                     name="Spotify"
                     href="/login/spotify"
                     className="bg-[#1ED760] hover:bg-[#1ED760]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={FaTwitch}
+                    name="Twitch"
+                    href="/login/twitch"
+                    className="bg-[#9146FF] hover:bg-[#9146FF]/90"
                 />
             </div>
         </>

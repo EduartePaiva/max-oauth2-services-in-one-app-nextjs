@@ -18,15 +18,11 @@ const usersTable = pgTable(
                 "reddit",
                 "roblox",
                 "spotify",
+                "twitch",
             ],
         }).notNull(),
     },
-    (table) => [
-        uniqueIndex("provider_index").on(
-            table.providerName,
-            table.providerUserId
-        ),
-    ]
+    (table) => [uniqueIndex("provider_index").on(table.providerName, table.providerUserId)]
 );
 
 export type User = InferSelectModel<typeof usersTable>;

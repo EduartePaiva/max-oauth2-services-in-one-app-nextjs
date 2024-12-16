@@ -1,12 +1,4 @@
-import {
-    Discord,
-    GitHub,
-    Google,
-    MyAnimeList,
-    Reddit,
-    Roblox,
-    Spotify,
-} from "arctic";
+import { Discord, GitHub, Google, MyAnimeList, Reddit, Roblox, Spotify, Twitch } from "arctic";
 
 import { env } from "@/env/server";
 
@@ -16,11 +8,7 @@ export const google = new Google(
     env.GOOGLE_REDIRECT_URI
 );
 
-export const github = new GitHub(
-    env.GITHUB_CLIENT_ID,
-    env.GITHUB_CLIENT_SECRET,
-    null
-);
+export const github = new GitHub(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET, null);
 
 export const discord = new Discord(
     env.DISCORD_CLIENT_ID,
@@ -50,4 +38,10 @@ export const spotify = new Spotify(
     env.SPOTIFY_CLIENT_ID,
     env.SPOTIFY_CLIENT_SECRET,
     env.SPOTIFY_REDIRECT_URI
+);
+
+export const twitch = new Twitch(
+    env.TWITCH_CLIENT_ID,
+    env.TWITCH_CLIENT_SECRET,
+    env.TWITCH_REDIRECT_URI
 );
