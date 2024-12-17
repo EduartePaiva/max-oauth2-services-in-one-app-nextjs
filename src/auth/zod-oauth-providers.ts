@@ -31,6 +31,12 @@ export const robloxData = z.object({
     picture: z.string().nullable(),
 });
 
+export const yahooData = z.object({
+    sub: z.string(),
+    name: z.string(),
+    picture: z.string(),
+});
+
 export const spotifyData = z.object({
     id: z.string(),
     display_name: z.string().nullable(),

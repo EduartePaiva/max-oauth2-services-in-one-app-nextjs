@@ -42,6 +42,9 @@ export const env = createEnv({
         TWITCH_CLIENT_ID: z.string(),
         TWITCH_CLIENT_SECRET: z.string(),
         TWITCH_REDIRECT_URI: z.string().url(),
+        YAHOO_CLIENT_ID: z.string(),
+        YAHOO_CLIENT_SECRET: z.string(),
+        YAHOO_REDIRECT_URI: z.string().url(),
     },
     onValidationError: (error: ZodError) => {
         console.error("❌ Invalid environment variables:", error.flatten().fieldErrors);

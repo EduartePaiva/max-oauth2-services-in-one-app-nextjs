@@ -3,7 +3,15 @@
 import Link from "next/link";
 
 import { ChevronLeft } from "lucide-react";
-import { FaDiscord, FaGithub, FaGoogle, FaReddit, FaSpotify, FaTwitch } from "react-icons/fa";
+import {
+    FaDiscord,
+    FaGithub,
+    FaGoogle,
+    FaReddit,
+    FaSpotify,
+    FaTwitch,
+    FaYahoo,
+} from "react-icons/fa";
 import { TbBrandOauth } from "react-icons/tb";
 
 import MyAnimeListIcon from "@/components/custom-icons/my-anime-list";
@@ -74,6 +82,12 @@ export default function LoginPage() {
                     name="Twitch"
                     href="/login/twitch"
                     className="bg-[#9146FF] hover:bg-[#9146FF]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={FaYahoo}
+                    name="Yahoo"
+                    href="/login/yahoo"
+                    className="bg-[#410093] hover:bg-[#410093]/90"
                 />
             </div>
         </>

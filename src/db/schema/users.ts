@@ -19,6 +19,7 @@ const usersTable = pgTable(
                 "roblox",
                 "spotify",
                 "twitch",
+                "yahoo",
             ],
         }).notNull(),
     },

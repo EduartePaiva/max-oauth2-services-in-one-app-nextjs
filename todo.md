@@ -15,8 +15,8 @@ source: https://myanimelist.net/apiconfig/references/authorization#step-2-client
 [x] - Roblox
 [x] - Salesforce - I can't even create an account on this
 [x] - Spotify
-[_] - Twitch - capacity to set the claims for the twitch provider
+[x] - Twitch - capacity to set the claims for the twitch provider
 [_] - Twitter/X
-[_] - Yahoo
+[x] - Yahoo
 [_] - Zoom
 [_] - Slack

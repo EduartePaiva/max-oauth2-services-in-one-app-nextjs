@@ -1,4 +1,14 @@
-import { Discord, GitHub, Google, MyAnimeList, Reddit, Roblox, Spotify, Twitch } from "arctic";
+import {
+    Discord,
+    GitHub,
+    Google,
+    MyAnimeList,
+    Reddit,
+    Roblox,
+    Spotify,
+    Twitch,
+    Yahoo,
+} from "arctic";
 
 import { env } from "@/env/server";
 
@@ -44,4 +54,9 @@ export const twitch = new Twitch(
     env.TWITCH_CLIENT_ID,
     env.TWITCH_CLIENT_SECRET,
     env.TWITCH_REDIRECT_URI
+);
+export const yahoo = new Yahoo(
+    env.YAHOO_CLIENT_ID,
+    env.YAHOO_CLIENT_SECRET,
+    env.YAHOO_REDIRECT_URI
 );
