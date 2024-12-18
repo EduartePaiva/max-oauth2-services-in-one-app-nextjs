@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { ChevronLeft } from "lucide-react";
+import { BiLogoZoom } from "react-icons/bi";
 import {
     FaDiscord,
     FaGithub,
@@ -88,6 +89,12 @@ export default function LoginPage() {
                     name="Yahoo"
                     href="/login/yahoo"
                     className="bg-[#410093] hover:bg-[#410093]/90"
+                />
+                <ProviderLoginBtn
+                    LogoIcon={BiLogoZoom}
+                    name="Zoom"
+                    href="/login/zoom"
+                    className="bg-[#2D8CFF] hover:bg-[#2D8CFF]/90"
                 />
             </div>
         </>

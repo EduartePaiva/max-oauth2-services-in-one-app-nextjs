@@ -20,6 +20,7 @@ const usersTable = pgTable(
                 "spotify",
                 "twitch",
                 "yahoo",
+                "zoom",
             ],
         }).notNull(),
     },

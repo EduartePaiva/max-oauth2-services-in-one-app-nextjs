@@ -8,6 +8,7 @@ import {
     Spotify,
     Twitch,
     Yahoo,
+    Zoom,
 } from "arctic";
 
 import { env } from "@/env/server";
@@ -55,8 +56,11 @@ export const twitch = new Twitch(
     env.TWITCH_CLIENT_SECRET,
     env.TWITCH_REDIRECT_URI
 );
+
 export const yahoo = new Yahoo(
     env.YAHOO_CLIENT_ID,
     env.YAHOO_CLIENT_SECRET,
     env.YAHOO_REDIRECT_URI
 );
+
+export const zoom = new Zoom(env.ZOOM_CLIENT_ID, env.ZOOM_CLIENT_SECRET, env.ZOOM_REDIRECT_URI);

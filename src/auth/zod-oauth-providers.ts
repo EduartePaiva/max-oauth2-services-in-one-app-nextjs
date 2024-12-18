@@ -57,7 +57,14 @@ export const twitchData = z.object({
         })
     ),
 });
+
 export const twitchTokenData = z.object({
     sub: z.string(),
     aud: z.string(),
+});
+
+export const zoomData = z.object({
+    id: z.string(),
+    display_name: z.string(),
+    pic_url: z.string(),
 });

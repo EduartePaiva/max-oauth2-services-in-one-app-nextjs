@@ -45,6 +45,9 @@ export const env = createEnv({
         YAHOO_CLIENT_ID: z.string(),
         YAHOO_CLIENT_SECRET: z.string(),
         YAHOO_REDIRECT_URI: z.string().url(),
+        ZOOM_CLIENT_ID: z.string(),
+        ZOOM_CLIENT_SECRET: z.string(),
+        ZOOM_REDIRECT_URI: z.string().url(),
     },
     onValidationError: (error: ZodError) => {
         console.error("❌ Invalid environment variables:", error.flatten().fieldErrors);
